@@ -1,0 +1,36 @@
+ 
+1.解压Hadoop，配置hadoop以及Java环境变量
+  编辑~/.bashrc (non-login shell配置)
+  export JAVA_HOME=/home/jun/jdk1.8.0_60
+  export HADOOP_HOME=/home/jun/compiled/hadoop-2.7.1
+  export PATH=$PATH;$HADOOP_HOME/bin:$HADOOP_HOME/sbin(这个配置使的可以直接执行hadoop相关命令）
+2.配置文件
+  hadoop有3种模式：standalone，Pseudodistributed，Fully distributed Mode。
+  要想选择其中一个特定模式，需要设置对应的属性，并启动相应的daemon。
+  在/etc/hadoop文件夹下有core-default.xml，hdfs-default.xml，mapred-default.xml，以及yarn-default.xml，修改
+  这些文件的配置，就达到设置对应属性的目的。
+  2.1 standalone模式 默认模式是standalone。这种模式主要用于调试java文件
+  因此在本文档的配置过程中，将不做任何修改，直接采用standalone模式。
+3.编译 （standalone模式编译）
+  3.1 建立classpath环境变量（注意是小写的classpath，不是大写的）
+  还是编辑~/.bashrc文件
+  export classpath=/home/jun/compiled/hadoop-2.7.1/share/hadoop/common/hadoop-common-2.7.1.jar
+  :/home/jun/compiled/hadoop-2.7.1/share/hadoop/mapreduce/hadoop-mapreduce-client-core-2.7.1.jar
+  :/home/jun/compiled/hadoop-2.7.1/share/hadoop/common/hadoop-common-2.7.1.jar
+  编译过程中需要用到以上三个文件
+  3.2 编辑java文件
+  3.3 javac -classpath $classpath:./ -d . MaxTemperature.java
+      $classpath:./ 在原来三个文件的基础上添加当前路径
+      MaxTemperature.java这个是java的主文件。
+      该编译命令会生成3个class文件
+  3.4 jar -cvf MaxTemperature.jar -C ./ .
+      该命令将3个class文件打包成一个MaxTemperature.jar文件
+4.在当前shell中，将刚刚生成的jar文件加入HADOOP_CLASSPATH环境变量中
+  export HADOOP_HOME=MaxTemperature.jar
+5.运行
+  hadoop MaxTemperature ../../../../input/ncdc/sample.txt output
+  ../../../../input/ncdc/sample.txt这个文件是要分析的数据文件
+  output是输出的结果
+6.显示结果
+  cat ./output/part-r-00000
+  
