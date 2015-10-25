@@ -1,0 +1,9 @@
+ 
+首先先运行ngrok tcp 22 -log stdout
+然后由ngrok.py去访问http://127.0.0.1:4040，抓取网址
+网址将存入ngrok.txt
+最后将ngrok.txt的内容发到邮箱中
+
+每天 8:50运行ngrok
+每天 8：55运行python3 ngrok.py
+每天 9：00运行mail -s "ngrok" xianjunzheng.backup@gmail.com <....../ngrok.txt
