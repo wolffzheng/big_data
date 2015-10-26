@@ -7,3 +7,6 @@
 每天 8:50运行ngrok
 每天 8：55运行python3 ngrok.py
 每天 9：00运行mail -s "ngrok" xianjunzheng.backup@gmail.com <....../ngrok.txt
+
+修正：第二条命令python3 ngrok.py 应该改为：/home/jun/compiled/python3.5/bin/python3 /home/jun/compiled/ngrok/ngrok.py
+修改的原因是在crontab环境中无法读取用户的环境变量，因此没办法找到python3，因此应该用绝对路径
